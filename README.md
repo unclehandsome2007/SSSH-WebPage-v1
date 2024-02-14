@@ -31,7 +31,7 @@
 
 ### 學校官網：
 
-[東海大學](https://www.thu.edu.tw/)、[國立台灣藝術大學](https://www.ntua.edu.tw/)、[國立台北藝術大學](https://w3.tnua.edu.tw/)、[函館大學](https://www.hakodate-u.ac.jp/)、[日本大學](https://www.nihon-u.ac.jp/)、[慶應私塾](https://www.keio.ac.jp/en/)、[上智大學](https://www.sophia.ac.jp/jpn/)、[早稻田大學](https://www.waseda.jp/)、[東京都立大學](https://www.tmu.ac.jp/、[京都藝術大學](https://www.kyoto-art.ac.jp/)、[日本大學鶴之丘高校](https://www.tsurugaoka.hs.nihon-u.ac.jp/)、[遺愛女子學校](https://www.iaijoshi-h.ed.jp/)、[荷蘭海牙皇家藝術學院](https://www.kabk.nl/)、[英國皇家藝術學院](https://www.rca.ac.uk/)、[倫敦藝術大學](https://www.arts.ac.uk/)、[昆士蘭大學](https://uq.edu.au/)
+[東海大學](https://www.thu.edu.tw/)、[國立台灣藝術大學](https://www.ntua.edu.tw/)、[國立台北藝術大學](https://w3.tnua.edu.tw/)、[函館大學](https://www.hakodate-u.ac.jp/)、[日本大學](https://www.nihon-u.ac.jp/)、[慶應私塾](https://www.keio.ac.jp/en/)、[上智大學](https://www.sophia.ac.jp/jpn/)、[早稻田大學](https://www.waseda.jp/)、[東京都立大學](https://www.tmu.ac.jp/)、[京都藝術大學](https://www.kyoto-art.ac.jp/)、[日本大學鶴之丘高校](https://www.tsurugaoka.hs.nihon-u.ac.jp/)、[遺愛女子學校](https://www.iaijoshi-h.ed.jp/)、[荷蘭海牙皇家藝術學院](https://www.kabk.nl/)、[英國皇家藝術學院](https://www.rca.ac.uk/)、[倫敦藝術大學](https://www.arts.ac.uk/)、[昆士蘭大學](https://uq.edu.au/)
 
 ![日本慶應義塾網站](https://firebasestorage.googleapis.com/v0/b/sssh-webpage.appspot.com/o/keio.png?alt=media&token=a3a884c4-58db-4195-bdaa-5c9ff1e28d2d)
 
