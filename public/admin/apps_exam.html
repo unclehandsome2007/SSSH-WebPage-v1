@@ -1,0 +1,216 @@
+<div class="ts-app-layout">
+    <div class="cell is-fluid" style="background-color: transparent;">
+        <div class="ts-content">
+            <div class="ts-header is-heavy">段考範圍填寫</div>
+            <div class="ts-divider"></div>
+            <br>
+            <!-- 增加按鈕 -->
+            <button class="ts-button" data-toggle="modal:is-visible">
+                新增範圍
+            </button>
+            <div class="ts-modal" data-name="modal">
+                <div class="content">
+                    <div class="ts-content is-padded">
+                        <p>年級</p>
+                        <div class="ts-select">
+                            <select id="gradeSelect">
+                                <option value="grade1">高一</option>
+                                <option value="grade2">高二</option>
+                                <option value="grade3">高三</option>
+                            </select>
+                        </div>
+                        <p>科目</p>
+                        <div class="ts-input">
+                            <input type="text" id="subjectInput" placeholder="例如:國文" />
+                        </div>
+                        <p>範圍</p>
+                        <div class="ts-input">
+                            <input type="text" id="rangeInput"/>
+                        </div>
+                    </div>
+                    <div class="ts-divider"></div>
+                    <div class="ts-content is-tertiary is-horizontally-padded is-end-aligned">
+                        <button class="ts-button" onclick="addNewData()" data-toggle="modal:is-visible">確定</button>
+                        <button class="ts-button is-outlined" data-toggle="modal:is-visible">
+                            取消
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <br><br>
+            <div class="ts-box">
+                <table class="ts-table">
+                    <thead>
+                        <tr>
+                            <th>年級</th>
+                            <th>科目</th>
+                            <th>範圍</th>
+                            <th>填寫者</th>
+                            <th>最後填寫時間</th>
+                            <th>刪除</th> <!-- 添加删除列 -->
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 獲取對Firebase的引用
+    var db = firebase.firestore();
+
+    // 将年级转换为对应的中文名称
+    function getChineseGrade(grade) {
+        switch (grade) {
+            case 'grade1':
+                return '高一';
+            case 'grade2':
+                return '高二';
+            case 'grade3':
+                return '高三';
+            default:
+                return grade;
+        }
+    }
+
+    // 将Timestamp转换为指定格式的时间字符串
+    function formatTimestamp(timestamp) {
+        if (timestamp) {
+            var date = timestamp.toDate();
+            var year = date.getFullYear();
+            var month = date.getMonth() + 1;
+            var day = date.getDate();
+            var hours = date.getHours();
+            var minutes = date.getMinutes();
+            var seconds = date.getSeconds();
+            var amOrPm = hours >= 12 ? '下午' : '上午';
+            hours = hours % 12 || 12; // 转换为12小时制
+
+            return `${year}/${month}/${day} ${amOrPm} ${hours}:${minutes}:${seconds}`;
+        } else {
+            return 'undefined';
+        }
+    }
+
+    // 删除数据
+    function deleteData(grade, subject, range) {
+        // 弹出确认对话框
+        var confirmed = confirm("確定要刪除此項目嗎？");
+        if (confirmed) {
+            var gradeRef = db.collection('system').doc('exam_search');
+            gradeRef.get().then(function(doc) {
+                if (doc.exists) {
+                    var data = doc.data();
+                    var newData = data[grade].filter(item => item.subject !== subject || item.range !== range);
+                    data[grade] = newData;
+                    gradeRef.set(data).then(function() {
+                        // 数据删除成功后重新加载数据
+                        loadArticles();
+                    }).catch(function(error) {
+                        console.error("Error deleting document: ", error);
+                    });
+                }
+            });
+        }
+    }
+
+    // 查詢文章並填充表格
+    function loadArticles() {
+        var tableBody = document.getElementById('tableBody');
+
+        // 清空表格內容
+        tableBody.innerHTML = '';
+
+        // 獲取文章集合的引用，並按照年级和科目进行排序
+        var articlesRef = db.collection('system').doc('exam_search');
+
+        articlesRef.get().then(function(doc) {
+            if (doc.exists) {
+                var data = doc.data();
+
+                // 获取所有年级的数据
+                var allGrades = ['grade1', 'grade2', 'grade3'];
+
+                // 遍历年级
+                allGrades.forEach(grade => {
+                    var gradeData = data[grade];
+                    if (Array.isArray(gradeData)) {
+                        // 对数据按照科目排序
+                        gradeData.sort((a, b) => a.subject.localeCompare(b.subject));
+
+                        // 遍历年级内的数据
+                        gradeData.forEach(item => {
+                            var row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${getChineseGrade(grade)}</td>
+                                <td>${item.subject}</td>
+                                <td>${item.range}</td>
+                                <td>${item.author}</td>
+                                <td>${formatTimestamp(item.time)}</td>
+                                <td>
+                                    <button class="ts-button is-icon is-negative is-outlined" onclick="deleteData('${grade}', '${item.subject}', '${item.range}')">
+                                        <span class="ts-icon is-trash-icon"></span>
+                                    </button>
+                                </td>
+                            `;
+                            tableBody.appendChild(row);
+                        });
+                    }
+                });
+            }
+        });
+    }
+    loadArticles();
+
+    // 新增数据到Firebase
+    function addNewData() {
+        var gradeSelect = document.getElementById('gradeSelect');
+        var subjectInput = document.getElementById('subjectInput');
+        var rangeInput = document.getElementById('rangeInput');
+        
+        var selectedGrade = gradeSelect.value;
+        var selectedSubject = subjectInput.value;
+        var selectedRange = rangeInput.value;
+
+        if (selectedSubject && selectedRange) {
+            // 获取填写者邮箱
+            var session = $.cookie('session');
+            var decodedSession = JSON.parse(atob(session));
+            var author = decodedSession["email"];
+
+            // 获取当前时间戳
+            var currentTime = firebase.firestore.Timestamp.now();
+            
+            // 构建新数据对象
+            var newData = {
+                subject: selectedSubject,
+                range: selectedRange,
+                author: author,
+                time: currentTime
+            };
+
+            // 获取对应年级的文档引用
+            var gradeRef = db.collection('system').doc('exam_search');
+
+            // 更新年级文档中的数据数组
+            gradeRef.update({
+                [selectedGrade]: firebase.firestore.FieldValue.arrayUnion(newData)
+            }).then(function() {
+                // 清空输入字段
+                gradeSelect.value = 'grade1'; // 默认选择高一
+                subjectInput.value = '';
+                rangeInput.value = '';
+                // 重新加载数据
+                loadArticles();
+            }).catch(function(error) {
+                console.error("Error adding document: ", error);
+            });
+        } else {
+            alert("科目和範圍不能為空！");
+        }
+    }
+</script>

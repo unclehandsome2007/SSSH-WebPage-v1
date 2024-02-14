@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="is-light">
+
+<head>
+	<meta charset="utf-8">
+	<title>Login</title>
+	<link rel="stylesheet" href="login.css">
+	<link href="https://fonts.googleapis.com/css?family=Arvo" rel="stylesheet">
+	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css'>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocas/4.2.5/tocas.min.css" />
+
+</head>
+
+<body>
+
+
+	<div class="container" id="container">
+		<div class="form-container sign-in-container">
+			<form action="#">
+				<h1>系統登入</h1>
+				<br>
+
+				<div id="g_id_onload"
+					data-client_id="1088923991930-25oqfvlhius8c92svdq1e3ek2mbacj6r.apps.googleusercontent.com"
+					data-callback="handleCallback" data-auto_prompt="false"></div>
+				<div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline"
+					data-text="sign_in_with" data-shape="pill" data-logo_alignment="left"></div>
+
+				<p id="login_msg" style="color:red;">限使用學校帳號</p>
+
+			</form>
+
+		</div>
+
+		<div class="overlay-container">
+			<div class="overlay">
+				<div class="overlay-panel overlay-right">
+					<h1>松山高中</h1>
+					<p>松山人登入系統</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" async></script>
+	<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase-firestore.js"></script>
+
+
+	<script src="https://accounts.google.com/gsi/client" async defer></script>
+	<script src="https://apis.google.com/js/platform.js" async defer></script>
+	<script src="https://cdn.staticfile.org/jquery-cookie/1.4.1/jquery.cookie.min.js" async defer></script>
+	<script src="login.js" charset="utf-8"></script>
+</body>
+
+</html>

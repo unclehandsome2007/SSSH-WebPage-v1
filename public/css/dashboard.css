@@ -1,0 +1,10 @@
+#menu_bar{
+    position: fixed;
+    z-index: 2;
+    margin: 10px;
+}
+@media screen and (max-width:768px) {
+    #dashboard_menu{
+        display: none;
+    }
+}

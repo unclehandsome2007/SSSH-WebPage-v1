@@ -1,0 +1,157 @@
+<div class="ts-header is-large is-heavy">松山高中管理系統</div>
+<div class="ts-text is-secondary">今天又是美好的一天(╹ڡ╹ )</div>
+<div class="ts-grid is-relaxed is-3-columns has-top-spaced-large">
+  <div class="column">
+    <div class="ts-box">
+      <div class="ts-content">
+        <div class="ts-statistic">
+          <div class="value visit_num">0</div>
+        </div>
+        今日拜訪次數
+      </div>
+      <div class="symbol">
+        <span class="ts-icon is-eye-icon"></span>
+      </div>
+    </div>
+  </div>
+  <div class="column">
+    <div class="ts-box">
+      <div class="ts-content">
+        <div class="ts-statistic">
+          <div class="value user_num">0</div>
+        </div>
+        總會員數
+      </div>
+      <div class="symbol">
+        <span class="ts-icon is-users-icon"></span>
+      </div>
+    </div>
+  </div>
+  <div class="column">
+    <div class="ts-box">
+      <div class="ts-content">
+        <div class="ts-statistic">
+          <div class="value article_num">0</div>
+        </div>
+        文章數量
+      </div>
+      <div class="symbol">
+        <span class="ts-icon is-newspaper-icon"></span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="ts-divider is-section has-top-spaced-large"></div>
+<div class="ts-grid is-relaxed has-top-spaced-large">
+  <!-- <div class="column is-10-wide">
+    <div class="ts-box is-top-indicated">
+      <div class="ts-content is-dense">
+        <div class="ts-header is-heavy">最近登入</div>
+      </div>
+      <div class="ts-divider"></div>
+      <table class="ts-table is-basic">
+        <thead>
+          <tr>
+            <th>登入日期</th>
+            <th>登入時間</th>
+            <th>ip位置</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>2023/12/7</td>
+            <td>17:06:59</td>
+            <td>203.72.62.193</td>
+          </tr>
+          <tr>
+            <td>2023/12/7</td>
+            <td>13:17:25</td>
+            <td>192.168.1.293</td>
+          </tr>
+          <tr>
+            <td>2023/12/6</td>
+            <td>13:06:59</td>
+            <td>49.18.29.592</td>
+          </tr>
+          <tr>
+            <td>2023/12/6</td>
+            <td>11:02:14</td>
+            <td>31.49.20.192</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="ts-divider"></div>
+
+    </div>
+  </div> -->
+  <div class="column">
+
+    <div class="ts-box is-top-indicated">
+      <div class="ts-content is-dense">
+        <div class="ts-header is-heavy">常用功能</div>
+      </div>
+      <div class="ts-divider"></div>
+      <div class="ts-menu is-collapsed">
+        <a class="item" href="#article_post">
+          <div class="ts-iconset is-outlined">
+            <span class="ts-icon is-pen-to-square-icon"></span>
+            <div class="content">
+              <div class="title">發布文章</div>
+              <div class="text">在網站發布文章。</div>
+            </div>
+          </div>
+        </a>
+        <div class="ts-divider"></div>
+        <a class="item" href="#apps_exam">
+          <div class="ts-iconset is-outlined">
+            <span class="ts-icon is-pen-icon"></span>
+            <div class="content">
+              <div class="title">段考範圍修改</div>
+              <div class="text">修改網站上段考範圍。</div>
+            </div>
+          </div>
+        </a>
+        <div class="ts-divider"></div>
+        <a class="item" href="tel:+886-2-27535968">
+          <div class="ts-iconset is-outlined">
+            <span class="ts-icon is-phone-icon"></span>
+            <div class="content">
+              <div class="title">聯絡管理者</div>
+              <div class="text">02-27535968#245 網管中心</div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+  var db = firebase.firestore();
+  var articlesRef = db.collection('article');
+  var userRef = db.collection('user');
+  var visitRef = db.collection('log').doc("visit_count");
+
+  // 获取今天的日期并格式化为yyyymmdd
+  var today = new Date();
+  var year = today.getFullYear().toString();
+  var month = (today.getMonth() + 1).toString().padStart(2, '0');
+  var day = today.getDate().toString().padStart(2, '0');
+  var formattedDate = year + month + day;
+
+  articlesRef.get().then(function (querySnapshot) {
+    $(".article_num").html(querySnapshot.size);
+  });
+
+  userRef.get().then(function (querySnapshot) {
+    $(".user_num").html(querySnapshot.size);
+  });
+
+  visitRef.get().then(function (querySnapshot) {
+    // 使用格式化后的日期作为字段名
+    var fieldName = formattedDate;
+    $(".visit_num").html(querySnapshot.data()[fieldName]);
+  });
+
+</script>

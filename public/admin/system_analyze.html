@@ -1,0 +1,156 @@
+<style>
+    .chart-box{
+        margin: auto;
+        width: 60%;
+    }
+</style>
+
+<div class="ts-app-layout ">
+    <div class="cell is-fluid" style="background-color: transparent;">
+        <div class="ts-content">
+            <div class="ts-header is-heavy">流量報表</div>
+            <div class="ts-divider"></div>
+            <div class="chart-box">
+                <canvas id="myChart"></canvas>
+            </div>
+            <div class="ts-divider"></div>
+            <br>
+            <div class="chart-controls">
+                <button id="prevWeekBtn" class="ts-button">上一周</button>
+                <button id="nextWeekBtn" class="ts-button">下一周</button>
+                <button id="thisWeekBtn" class="ts-button">以周顯示</button>
+                <br><br>
+                <button id="thisMonthBtn" class="ts-button">以月顯示</button>
+                <button id="thisYearBtn" class="ts-button">以年顯示</button>
+            </div>
+        </div>
+        <br><br>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        const db = firebase.firestore();
+        const chartElement = document.getElementById('myChart');
+        let allData = {};
+
+        let currentDate = new Date();
+        let displayMode = 'week'; // 可為 'week', 'month', 'year'
+
+        // 初始化圖表
+        let myChart = new Chart(chartElement, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: '瀏覽人數',
+                    data: [],
+                }]
+            },
+        });
+
+        // 從 Firestore 獲取數據
+        function fetchData() {
+            const collectionRef = db.collection('log').doc('visit_count');
+            collectionRef.get().then((doc) => {
+                if (doc.exists) {
+                    allData = doc.data();
+                    filterDataBasedOnMode();
+                } else {
+                    console.log("找不到文件！");
+                }
+            }).catch((error) => {
+                console.error("出錯了：", error);
+            });
+        }
+
+        // 更新圖表數據
+        function updateChart(labels, dataPoints) {
+            myChart.data.labels = labels;
+            myChart.data.datasets[0].data = dataPoints;
+            myChart.update();
+        }
+
+        // 計算月份或年份的總流量
+        function calculateSum(data, isYearly) {
+            let sumData = {};
+            for (const date in data) {
+                let year = date.substring(0, 4);
+                let month = isYearly ? '' : date.substring(4, 6);
+                let key = year + month;
+
+                if (!sumData[key]) {
+                    sumData[key] = 0;
+                }
+                sumData[key] += data[date];
+            }
+            return sumData;
+        }
+
+        // 篩選數據基於當前模式
+        function filterDataBasedOnMode() {
+            if (displayMode === 'week') {
+                let startDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - currentDate.getDay() - 6);
+                let endDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - currentDate.getDay());
+                filterData(formatDate(startDate), formatDate(endDate));
+            } else if (displayMode === 'month') {
+                let sumData = calculateSum(allData, false);
+                updateChart(Object.keys(sumData), Object.values(sumData));
+            } else if (displayMode === 'year') {
+                let sumData = calculateSum(allData, true);
+                updateChart(Object.keys(sumData), Object.values(sumData));
+            }
+        }
+
+        // 篩選數據
+        function filterData(startDate, endDate) {
+            const filteredLabels = Object.keys(allData).filter(date => date >= startDate && date <= endDate);
+            const filteredData = filteredLabels.map(date => allData[date]);
+            updateChart(filteredLabels, filteredData);
+        }
+
+        // 生成日期範圍字符串
+        function formatDate(date) {
+            let d = new Date(date),
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
+
+            if (month.length < 2) 
+                month = '0' + month;
+            if (day.length < 2) 
+                day = '0' + day;
+
+            return [year, month, day].join('');
+        }
+
+        // 處理按鈕事件
+        $('#prevWeekBtn').click(function() {
+            currentDate.setDate(currentDate.getDate() - 7);
+            filterDataBasedOnMode();
+        });
+
+        $('#nextWeekBtn').click(function() {
+            currentDate.setDate(currentDate.getDate() + 7);
+            filterDataBasedOnMode();
+        });
+
+        $('#thisMonthBtn').click(function() {
+            displayMode = 'month';
+            filterDataBasedOnMode();
+        });
+
+        $('#thisYearBtn').click(function() {
+            displayMode = 'year';
+            filterDataBasedOnMode();
+        });
+        $('#thisWeekBtn').click(function() {
+            displayMode = 'week';
+            filterDataBasedOnMode();
+        });
+        // 初始加載數據
+        fetchData();
+    });
+</script>
+
+

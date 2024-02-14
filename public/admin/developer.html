@@ -1,0 +1,53 @@
+<div class="ts-app-layout ">
+
+
+    <div class="cell is-fluid" style="background-color: transparent;">
+        <div class="ts-content">
+            <div class="ts-header is-heavy">開發者專用</div>
+            <div class="ts-divider"></div>
+            <div class="ts-control">
+                <div class="label">水個流量</div>
+                <div class="content">
+                    <div class="ts-wrap is-vertical is-compact">
+                        <div class="ts-input is-underlined has-top-spaced-small">
+                            <input id="visit_count" type="text" />
+                        </div>
+                        <div class="ts-text is-description">修改今天流量。</div>
+                    </div>
+                </div>
+            </div>
+
+
+            <button class="ts-button has-top-spaced-large" onclick="post()">確定</button>
+        </div>
+
+
+        <br><br>
+    </div>
+
+</div>
+<script>
+    $(document).ready(function () {
+        var db = firebase.firestore();
+        var visitRef = db.collection('log').doc("visit_count");
+        var today = new Date();
+        var formattedDate = today.getFullYear() + (today.getMonth() + 1).toString().padStart(2, '0') + today.getDate().toString().padStart(2, '0');
+
+        visitRef.get().then(data => {
+            $("#visit_count").val(data.data()[formattedDate])
+        });
+    });
+    function post() {
+        var db = firebase.firestore();
+        var visitRef = db.collection('log').doc("visit_count");
+        var today = new Date();
+        var formattedDate = today.getFullYear() + (today.getMonth() + 1).toString().padStart(2, '0') + today.getDate().toString().padStart(2, '0');
+
+
+        visitRef.update({
+            [formattedDate]: Number($("#visit_count").val())
+        }).then(() => {
+            alert("已修改")
+        });
+    }
+</script>

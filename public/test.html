@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Header</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- 核心：Tocas UI -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocas/4.2.5/tocas.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocas/4.2.5/tocas.min.js"></script>
+
+    <!-- 字體：Noto Sans TC -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet" />
+</head>
+
+<body>
+    <div id="title_fixed">
+        <div class="center" id="mytitle"><a href="/"><img src="/images/bigtitle.png" height="100%"></a></div>
+        <input type="checkbox" id="check">
+        <label for="check" class="menu">
+            <div style="cursor:pointer" alt="選單" title="選單" aria-label="選單">&#9776;</div>
+        </label>
+
+        <input type="checkbox" id="menubackgroundCheck">
+        <div class="menubackground" for="menubackgroundCheck"></div>
+        <div class="sidemenu">
+            <label for="check">
+                <img style="cursor:pointer;" href="javascript:void(0)" src="/images/icon_close S250.png"
+                    class="closeimg" alt="關閉" title="關閉" aria-label="關閉">
+            </label>
+            <a
+                href="https://newssshwebsite-tk.translate.goog/?_x_tr_sl=zh-TW&_x_tr_tl=en&_x_tr_hl=zh-TW&_x_tr_pto=wapp">Language
+                〉</a>
+            <a href="#a1">最新消息News</a>
+            <a href="#a2">行政處室Department</a>
+            <a href="#a3">關於松高About</a>
+            <a href="#a4">崧人捷徑Shortcut</a>
+            <a href="#a5">網站地圖Map</a>
+            <a href="#a6">聯絡我們Contact Us</a>
+
+        </div>
+        <div class="is-light" id="title_avatar">
+            <button class="is-ghost" data-dropdown="dropdown">
+                <span class="ts-avatar is-circular">
+                    <img
+                        src="https://lh3.googleusercontent.com/a/ACg8ocJkAZCGHn-wQQC7VnkdTC8tc3CTqfu3cOEoj4-yv9fxdGM=s96-c">
+                </span>
+            </button>
+            <div class="ts-dropdown" data-name="dropdown">
+                <button onclick="location.href='/account.html';" class="item">帳戶</button>
+                <button onclick="location.href='/admin/dashboard.html';" class="item">管理介面</button>
+                <button onclick="location.href='/logout.html';" class="item">登出</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.getElementById('loginButton').addEventListener('click', function () {
+
+            var currentUrl = window.location.href;
+
+            var loginLink = document.getElementById('loginLink');
+            loginLink.href = "/system/login.html?callback=" + encodeURIComponent(currentUrl);
+        });
+    </script>
+    <div class="mainbox">
+        
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,64 @@
+<div class="ts-app-layout">
+    <div class="cell is-fluid" style="background-color: transparent;">
+        <div class="ts-content">
+            <div class="ts-header is-heavy">角色管理</div>
+            <div class="ts-divider"></div>
+            <br>
+            <!-- 增加按鈕 -->
+            <button class="ts-button" data-toggle="modal:is-visible">
+                新增角色
+            </button>
+            <div class="ts-modal" data-name="modal">
+                <div class="content">
+                    <div class="ts-content is-padded">
+                        <p>權限</p>
+                        <div class="ts-select">
+                            <select id="gradeSelect">
+                                <option value="grade1">高一</option>
+                                <option value="grade2">高二</option>
+                                <option value="grade3">高三</option>
+                            </select>
+                        </div>
+                        <p>角色英文名稱</p>
+                        <div class="ts-input">
+                            <input type="text" id="subjectInput" placeholder="例如:admin" />
+                        </div>
+                        <p>角色中文名稱</p>
+                        <div class="ts-input">
+                            <input type="text"  placeholder="例如:管理員" id="rangeInput"/>
+                        </div>
+                    </div>
+                    <div class="ts-divider"></div>
+                    <div class="ts-content is-tertiary is-horizontally-padded is-end-aligned">
+                        <button class="ts-button" onclick="addNewData()" data-toggle="modal:is-visible">確定</button>
+                        <button class="ts-button is-outlined" data-toggle="modal:is-visible">
+                            取消
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <br><br>
+            <div class="ts-box">
+                <table class="ts-table">
+                    <thead>
+                        <tr>
+                            <th>年級</th>
+                            <th>科目</th>
+                            <th>範圍</th>
+                            <th>填寫者</th>
+                            <th>最後填寫時間</th>
+                            <th>刪除</th> <!-- 添加删除列 -->
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+</script>

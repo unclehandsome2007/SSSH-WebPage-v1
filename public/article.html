@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+
+<html class="is-light">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="全新的松山高中，有溫度的幸福官網" /><!--網站簡介描述-->
+  <meta name="keywords" content="台北市,信義區,松山,高中,市立高中,松山高中,sssh" /><!--網站搜尋標籤-->
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>臺北市立松山高級中學</title>
+  <link href="images/icon.png" rel="shortcut icon"><!--tab上的圖-->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/article.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocas/4.2.5/tocas.min.css" />
+  <!-- 字體：Noto Sans TC -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet" />
+</head>
+
+<body>
+  <!-- Fixed的標題 -->
+  <div class="headerPage"></div>
+
+  <div id="mainbox2" class="article_page">
+    <!-- loading動畫 -->
+    <div class="ts-placeholder is-preparing">
+      <div class="text"></div>
+    </div>
+    <!-- 標題 -->
+    <div class="article_title highlight"></div>
+    <br>
+    <!-- 作者頭像 -->
+    <div class="article_header">
+    <div class="article_user">
+      <span class="ts-avatar is-circular">
+        <img class="article_user_img" src=""></span>
+    </div>
+    <!-- 作者與日期 -->
+    <div class="article_info">
+      <span class="ts-icon is-user-icon"></span>
+      <div class="info_username">
+        載入中...
+      </div>
+      <span class="ts-icon is-calendar-days-icon"></span>
+      <div class="info_date">
+        載入中...
+      </div>
+      <span class="ts-icon is-eye-icon"></span>
+      <div class="info_view_count">
+        載入中...
+      </div>
+    </div></div>
+    <!-- loading動畫 -->
+    <div class="ts-placeholder is-preparing">
+      <div class="text is-extra-short"></div>
+      <div class="text is-very-short"></div>
+      <div class="text is-short"></div>
+      <div class="text"></div>
+      <div class="text is-long"></div>
+      <div class="text is-very-long"></div>
+      <div class="text is-extra-long"></div>
+    </div>
+    <!-- 文章開始 -->
+
+    <div id="table-of-contents" style="display: none;"> <!-- 目錄區塊 -->
+      <h2>目錄</h2>  <!-- 目錄標題 -->
+      <ul id="toc-list">
+        <!-- JavaScript 將填充此列表 -->
+      </ul>
+    </div>
+    <div class="article_main"></div>
+  </div>
+
+
+  <!-- FOOTER 勿動! -->
+  <div class="footerPage"></div>
+
+
+  <div id="myBtn_div" style="display:none;">
+    <button onclick="topFunction()" id="myBtn" title="Go to top">〉</button>
+  </div>
+
+
+
+
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script defer src="https://cdn.staticfile.org/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/8.0.1/firebase-app.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/8.0.1/firebase-auth.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/8.0.1/firebase-storage.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/8.0.1/firebase-firestore.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/tocas/4.2.5/tocas.min.js"></script>
+  <script defer src="/js/firebaseDB.js"></script>
+  <script defer src="/js/article.js"></script>
+  <script defer src="/js/main.js"></script>
+</body>
+
+</html>

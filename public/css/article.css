@@ -1,0 +1,224 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400italic);
+
+@font-face {
+  font-family: subtitle;
+  /*定義小標、副標、選項、重點字體*/
+  src: url(../fonts/SourceHanSansTW-Medium.otf);
+  font-weight: bolder;
+}
+
+@font-face {
+  font-family: bigtitle;
+  /*定義標題字體*/
+  src: url(../fonts/SourceHanSerifTW-SemiBold.otf),
+    local("Arial");
+}
+
+@font-face {
+  font-family: article;
+  /*定義內文字體*/
+  src: url(../fonts/SourceHanSerifTW-Light.otf),
+    local("Arial");
+}
+
+.body{
+  text-decoration: none;
+}
+
+
+.highlight {
+  background-image: linear-gradient(to right, #bbccb1 0%, #78c0a8 100%);
+  background-repeat: repeat-x;
+  background-position: 0 100%;
+  background-size: 100% 3px;
+}
+
+.article_header {
+  display: flex;
+  align-items: center; /* 確保元素垂直居中 */
+}
+
+.article_user,
+.article_info {
+  display: flex;
+  align-items: center; /* 確保圖片與文字垂直對齊 */
+}
+.article_main h2{
+  font-size: 2em;
+}
+
+.article_user {
+  flex-shrink: 0; /* 防止圖片縮小 */
+}
+
+.article_info {
+  flex-grow: 1; /* 允許文字部分佔用剩餘空間 */
+  font-size: calc(1.8vh + 0.3vw); /* 動態調整字體大小 */
+}
+.article_info span{
+  margin-left: 10px; /* 添加一些間隔 */
+}
+.article_main {
+  margin: 0% 10% 0 10%;
+  font-size: 20px;
+}
+.article_main p,li{
+  font-family: article;
+  font-size: 1em;
+  line-height: 2em;
+  letter-spacing: 0.1em;
+}
+.article_main p {
+  padding-bottom:3px;
+}
+.article_main a{
+  text-decoration: none;
+  box-shadow: 0 1px #bbccb1;
+  padding-bottom:3px;
+  color: #666666;
+}
+.article_main blockquote p {
+  font-size: 1.5em;
+  font-family: article;
+  /* font-style: italic; */
+  color: #000000;
+  padding: 1em 30px 1em 70px;
+  border-left: 5px solid #78C0A8;
+  line-height: 1.2em;
+  position: relative;
+  background: rgba(100, 100, 100, 0.1);
+}
+
+.article_main blockquote::before {
+  font-family: Arial;
+  content: "\201C";
+  color: #78C0A8;
+  font-size: 4em;
+  position: absolute;
+  left: 10px;
+  top: -10px;
+  z-index: 10;
+}
+
+.article_main blockquote::after {
+  content: '';
+}
+
+.article_main blockquote span {
+  display: block;
+  color: #333333;
+  font-style: normal;
+  font-weight: bold;
+  margin-top: 1em;
+}
+
+.article_main pre {
+  background-color: #1f1f1f;
+  padding: 9px;
+  color: rgb(0, 0, 0);
+  border-radius: 5px;
+  font-size: 15px;
+  border-left: 8px solid #78C0A8;
+}
+
+.article_main code {
+  position: absolute;
+  right: 20px;
+  color: #999;
+}
+
+.article_main table { 
+  border:1px solid #777; 
+  font-family: 微軟正黑體; 
+  font-size:16px; 
+  width:200px;
+  border:1px solid #777;
+  text-align:center;
+  border-collapse:collapse;
+  width: 100%;
+  table-layout: fixed;
+} 
+
+.article_main th { 
+  padding:10px;
+  border:1px solid #777;
+  color:#000000;
+} 
+
+.article_main td { 
+  border:1px solid #777;
+  padding:5px;
+} 
+
+.article_main ul {
+  list-style: none;
+}
+
+.article_main ul li::before {
+  content: "\2022";
+  color: #777;
+  font-weight: bold;
+  display: inline-block;
+  width: 1rem;
+  margin-left: -2rem;
+  margin-right: 1em;
+}
+
+.article_main p img {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* 目錄 */
+#table-of-contents {
+  border: 1px solid #ccc;  /* 目錄區塊的邊框設定 */
+  padding: 15px;           /* 目錄區塊的內間距 */
+  margin-top: 20px;        /* 目錄區塊距離上邊緣的外間距 */
+}
+
+#table-of-contents h2 {
+  font-size: 1.2em;        /* 目錄標題的字型大小 */
+}
+
+#toc-list li {
+  list-style: none;        /* 列表項目不顯示點號 */
+}
+
+#toc-list a {
+  text-decoration: none;   /* 連結無下劃線 */
+  margin: 5px 0;           /* 連結的外間距 */
+  color: #999;
+}
+
+#toc-list a:hover {
+  text-decoration: #bbccb1 underline; /* 滑鼠懸停時的下劃線樣式 */
+  cursor: pointer;                       /* 滑鼠懸停時的指針形狀 */
+  font-weight: bold;                     /* 滑鼠懸停時的字型加粗 */
+}
+
+@media screen and (max-width:768px) {
+  .article_main {
+    margin: 0%;
+  }
+
+  .article_main blockquote {
+    left: -15%;
+    width: 100%;
+    >p{
+      font-size: 1.1em;
+    }
+  }
+
+  .article_info {
+    font-size: calc(1.2vh + 0.5vw); /* 在小屏幕上進一步調小字體大小 */
+  }
+
+  .article_user span {
+    width: 20px; /* 或者其他適合的尺寸 */
+    height: auto; /* 保持圖片的縱橫比 */
+  }
+  .article_main h2{
+    font-size: 1.3em;
+  }
+}

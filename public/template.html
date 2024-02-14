@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="全新的松山高中，有溫度的幸福官網"/><!--網站簡介描述-->
+    <meta name="keywords" content="台北市,信義區,松山,高中,市立高中,松山高中,sssh"/><!--網站搜尋標籤-->
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+    <title>臺北市立松山高級中學</title>
+    <link href="images/icon.png" rel="shortcut icon"><!--tab上的圖-->
+    <script src="http://code.jquery.com/jquery-3.1.1.min.js" async=false></script>
+    <!-- Import the associated firebase lib which the order is fixed. -->
+    <script defer src="https://www.gstatic.com/firebasejs/8.0.1/firebase-app.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/8.0.1/firebase-auth.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/8.0.1/firebase-storage.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/8.0.1/firebase-database.js"></script>
+    <!-- Set the firebsae config and initialize it. -->
+    <script defer src="RTBfirebase.js"></script>
+    <script defer src="js/main.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+<body>
+
+  <div id="spinner">
+    <!--这里是动画内容-->
+  </div>
+  <script>
+    // 1. 记录页面打开时间
+  var startTime = new Date().getTime();
+  
+  window.onload = function(){
+      // 2. 计算时间差
+      var timeSpan = new Date().getTime() - startTime;
+      
+      // 3. 判断时差
+      if(timeSpan >= 3000) {
+  
+          // 大于3秒结束动画
+  
+      } else {
+  
+          // 小于3秒用定时器延迟处理
+          setTimeout(function(){
+              //...
+          }, 3000 - timeSpan);
+  
+      }
+       
+  }
+  
+  /*作者：王昱森
+  链接：https://www.zhihu.com/question/21720214/answer/105551436
+  来源：知乎
+  著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。*/
+  </script>
+
+
+  <div class="center" id="mytitle"><a herf="index.html"><img src="images/bigtitle.png"height=100%></a></div>
+  <div>
+    <input type="checkbox" id="check">
+  <label for="check"  class="menu">
+    <div style="cursor:pointer;font-size: 45px;"alt="選單" title="選單" aria-label="選單">&#9776;</div>
+  </label>
+  <div class="sidemenu">
+      <div>
+        <a href="https://sssh--webpage-web-app.translate.goog/?_x_tr_sl=auto&_x_tr_tl=zh-TW&_x_tr_hl=zh-TW&_x_tr_pto=wapp"><img src="images/icon_earth.png" width="15%" alt="EN" title="EN" aria-label="EN"></a>
+      </div>
+
+    <a href="#a1">最新消息News</a>
+    <a href="#a2">行政處室Unit</a>
+    <a href="#a3">關於松高About</a>
+    <a href="#a4">崧人捷徑Shortcut</a>
+    <a href="#a5">網站地圖Map</a>
+    <a href="#a6">聯絡我們Contact Us</a>
+    <label for="check">
+      <img class=abc style="cursor:pointer;" href="javascript:void(0)" src="images/icon_close S250.png"alt="關閉" title="關閉" aria-label="關閉"><!--這個是關閉的符號-->
+    </label>
+  </div>
+  
+
+
+
+<div id="mainbox">
+  <br><br>
+  <h1 class="article_title"><br>松山高中學生校網重建計畫</h1>
+  <h5 class="notes">2023/06    劉道中</h5>
+  <h2 class="article_subtitle">發想源起</h2>
+  <h3><span class="article_highlight">"學校的官網怎麼可以這麼雜亂!"</span></h3>
+  <h4 class="article_article">當你進到學校官網，卻找不到自己要的東西...<br>當你發現學校官網的排版又醜又小簡直不忍卒睹...</h4>
+  <div class="newspictures"><img src="news pictures/old website.png" width="65%"/></div>
+  <h4 class="article_article">還有可笑的英文官網...</h4>
+  <div class="newspictures"><img src="news pictures/old english website.png" width="65%"/></div>
+  <h4 class="article_article">所以，我們決定著手做一個自己的官網</h4>
+  <h3><span class="article_highlight">一個具設計感、方便、實用，劃時代的官網!!</span></h3>
+  <h2 class="article_subtitle">內容規劃</h2>
+  <h4 class="article_article">網站分為前端、後端伺服器、資料庫。一個合理，好用，功能完善的前端網頁應該要有甚麼呢?<br>1.選單<br>2.橫幅<br>3.內容組織<br>4.分頁架構<br>5.內容發布頁</h4>
+  <h4 class="article_article">還有一件很重要的事，雖然你可能感受不到，但是政府法令中明確規定公家機關的網頁皆需配備的功能:</h4>
+  <h3><span class="article_highlight">無障礙功能</span></h3>
+  <h4 class="article_article">無障礙功能主要提供視障及身障者可以更方便的操作網頁，包含使用語音讀取頁面資訊、全程用鍵盤操控等，都是無障礙網頁的基本要求。</h4>
+  <h4 class="article_article">上學期我們已經做完後台搭建以級選單等基本功能，這學期主要著重細節提升、美術設計還有無障礙功能以及裝置適配。</h4>
+  <h2 class="article_subtitle">開始實作</h2>
+  <h4 class="article_article">由於自行架設後端及資料庫的時間及成本實在過於高昂，因此最後使用firebase服務</h4>
+  <div class="newspictures"><img src="news pictures/endbelike.jpg" width="40%"/></div>
+  <h5 class="notes">▲當我以為我可以自己架伺服器跟資料庫</h5>
+  <h4 class="article_article">但是其實在電腦上安裝firebase也是一項浩大的工程，最後是請我偉大的朋友郭佑佑的幫忙才搞定。<span style="text-decoration: line-through;">由此可見交到對的朋友比自身實力更重要。</span><br>寫網站其實很簡單，畢竟沒有什麼邏輯運算，也沒有變數函式，標籤下一下就沒了。啊，不過說不用花時間都是騙人的。QQ</h4>
+  <div class="newspictures"><img src="news pictures/firstweek.png" width="65%"/></div>
+  <h5 class="notes">▲第一個星期BE LIKE</h5>
+  <div class="newspictures"><img src="news pictures/thirdweek.png" width="65%"/></div>
+  <h5 class="notes">▲第三個星期BE LIKE 連底色都無法決定，換來換去</h5>
+  <h4 class="article_article">學習是從抄襲開始，所以我們到處剽竊人家的創意...其實也不是，現在的網頁大多已經有統一的設計風格以及功能，所以我們先從已有前例的部分開始下手。</h4>
+  <div class="newspictures"><img src="news pictures/forthweek.png" width="65%"/></div>
+  <h5 class="notes">▲第四個星期BE LIKE</h5>
+  <h4 class="article_article">現在普遍的網頁設計基本上分為兩大種，最常見的是直接將所有功能擺在主畫面上方資訊欄，像是學校這樣子:</h4>
+  <div class="newspictures"><img src="news pictures/menutop.png" width="65%"/></div>
+  <h4 class="article_article">又或像學校這樣子:</h4>
+  <div class="newspictures"><img src="news pictures/menumiddle.png" width="65%"/></div>
+  <h4 class="article_article">這種設計因為直觀，且可以讓訪客在第一時間通往自己需要頁面，大多數的商業網站都採用這種設計。<br>但是他有一個小小的缺點，就是不能擺太多東西，不然就會把首頁弄得非常混亂，或是根本塞不下。這個時候，只好請出二級選單，所謂二級選單，就是在選單下再有一層選單，故為「二級」，理所當然地也會有三級甚至更多級。<br>比如像學校首頁就出現了三級選單:</h4>
+  <div class="newspictures"><img src="news pictures/menuthird.png" width="50%"/></div>
+  <h4 class="article_article">第二種是隱藏式選單，通常會用三條或兩條線來代表選單的按鈕，按下之後選單才會從側邊滑出來，又或是佔據全螢幕，讓使用者有更大的空間可以擺放更多的資訊。</h4>
+  <div class="newspictures"><img src="news pictures/menuside_3.png" width="25%"/></div>
+  <div class="newspictures"><img src="news pictures/menuside_1.png" height="500vh"/>
+    <img src="news pictures/menuside_2.png" height="500vh"/></div>
+  <h4 class="article_article">有的時候，縫合怪也能達到不錯的效果，在美觀的同時也兼顧功能。</h4>
+  <div class="newspictures"><img src="news pictures/menu_side_top_2.png" width="50%"/></div>
+  <div class="newspictures"><img src="news pictures/menu_side_top_1.png" width="50%"/></div>
+  <h4 class="article_article">總之，在參考了上面各式各樣的網頁後，我們最後選擇採用完全隱藏的側邊欄設計。<br>曾經也想過要在其中加入二級選單，但是考慮過後只要分類夠清楚，其實不需要把所有的選項都寫出來，所以就取消了。</h4>
+  <div class="newspictures"><img src="news pictures/twosteps.png" width="25%"/></div>
+  <h4 class="article_article">很多東西其實不應該那樣寫，可是在加了一堆東西之後竟然沒問題!就將就著用。也有些東西是誤打誤撞生出來的，比如辣個叉叉，其實本來只是定位錯誤...</h4>
+  <div class="newspictures"><img src="news pictures/sidemenuclose.png" width="25%"/></div>
+  <h5 class="notes">▲最後就變成了一個小小的特色還有設計的靈感</h5>
+  <div class="newspictures"><img src="news pictures/meme_1.jpg" width="50%"/></div>
+  <h4 class="article_article">或者是偷吃步，我在解決英文網頁的問題的時候想破頭都不知道該怎麼在不會增加資料庫負擔的情況下解決每天都有最新消息的官網翻譯問題，總不可能每個都寫兩份吧!所以最後，我請出了google大神。還是這個好用(笑)</h4>
+  <h4 class="article_article">實際上邊學邊做效率極低，在加上線下合作的效率，還有一天到晚改來改去的美術設計，我都覺得我的速度很可怕...</h4>
+  <div class="newspictures"><img src="news pictures/febbelike.png" width="50%"/></div>
+  <h5 class="notes">▲今年二月BE LIKE，有些到現在才修得差不多，有些跟現在長得差不多</h5>
+  <div class="newspictures"><img src="news pictures/meme_2.jpg" width="50%"/></div>
+  <h4 class="article_article">關於設計的美學，其實也是到處參考各種不同的網站還有YT，經過跟夥伴們一起討論，每個星期稍微更動一點最後才變出來的。要是沒有跟夥伴的互相討論，還有到處模仿各處的創意，我猜我做出來的網頁大概也好看不到哪裡去。XD</h4>
+  <h4 class="article_article">過程中還有許多微小的細節，比如動畫的速度、文字的字型、大小，甚至動畫的細節，雖然極度不起眼，但是卻會大大影響使用體驗，只有願意注重細節，才能真正達到完美的使用體驗，我想不管是在網頁設計又或是其他產品，這個道理都是不變的。</h4>
+  <h4 class="article_article">再來是無障礙功能，經過研究之後發現，實在是非常的難做!主要是我們手邊並沒有無障礙印體，也沒有檢測無障礙功能的軟體，而且需用到許多不熟悉的程式...總之就是我來不及研究。但是不打緊，我還是可以做最基本的無障礙輔助，像是為圖片加上文字說明，還有網頁內的文字層級標示，可以幫助視障使用者用螢幕閱讀器閱讀網頁資訊。</h4>
+  <h4 class="article_article">另外還有一個大難關:響應式頁面。想一下，你每天用的手機、電腦都有不同的螢幕大小、長寬比例，網頁排版自然要做出相應的調整。</h4>
+  <h3><span class="article_highlight">可不是等比例縮放就好</span></h3>
+  <h4 class="article_article">響應式頁面的做法說難不難，先抓取螢幕長寬，然後使用比例寫法調整位置及大小。<br>然後你就會發現，所有東西都跑掉了!</h4>
+  <div class="newspictures"><img src="news pictures/rwd_1.png" width="50%"/></div>
+  <h4 class="article_article">雖然已經寫了響應，但是因為所謂父子定位的問題，非常多東西都會跑掉，或是直接霸佔頁面各種問題。<br>種，經過這個學期的各種努力，我已經做到了基本的適配，總之就是不會壓到，不會跑掉，不一定看得清楚，但一定能用。<br>但是!但是，我手機的響應式頁面還沒做好，因為他已經牽涉到整個版型的更動，簡單來說，你必須寫一個新的網頁，再寫一隻程式讓他決定甚麼時候要換過去...好了好了，不要在鞭屍我了，我就是一直沒做，因為真的好難搞( ;∠; )。</h4>
+  <div class="newspictures"><img src="news pictures/rwdbelike.jpg" width="50%"/></div>
+  <h4 class="article_article">然後還做了一些酷酷的功能，像是後台資料連線，還有線上發布，只不過還有一些bug要修。</h4>
+  <h2 class="article_subtitle">心得反思</h2>
+  <h3><span class="article_highlight">細節成就完美</span></h3>
+  <h4 class="article_article">這句話是真的，或許少一整個功能你還沒差，但是動畫稍微歪掉你可能就受不了了。就像蘋果之所以能賣這麼貴，就貴在每個環節的細節都天衣無縫，所以你才覺得他好用。</h4>
+  <h3><span class="article_highlight">時間控管很重要!</span></h3>
+  <h4 class="article_article">我其實都是想到什麼就做什麼，結果最後有些東西沒做完，或是學了太多奇怪的東西結果還是刪掉。所以盡量照著計劃表走吧!也是可以規畫自由時間，有時也會找到不錯的點子。</h4>
+  <h3><span class="article_highlight">寫網頁沒未來!</span></h3>
+  <h4 class="article_article">對，是真的。<br>上學期上台報告的時候，我完全沒有想到我要在台上向大家證明"這是我自己做的"。半年前AI還沒流行，寫網頁是門技術活，結果現在只要會說話，大家都可以自己寫網頁了。</h4>
+  <h4 class="article_article">更不用提還有像blogger或wordpress這種快速架站工具，或是像dreamwaver這種工具，</h4>
+  <h3><span class="article_highlight">你可以用作ppt的方式做網站</span></h3>
+  <h4 class="article_article">再加上AI的影響，雖然很可惜，但是下學期想必是不會繼續做了，而且你知道的，網頁根本不是程式，沒有辦法培養未來資工需要的能力。</h4>
+  <h3><span class="article_highlight">但是!這真的是個很好的經驗，學到一大堆東西</span></h3>
+  <h4 class="article_article">對，不是很多，是一大堆，從前端到後端，都學到了基礎的能力，同時提升了美感，設計的經驗還有團隊合作的過程，雖然不完美，但都是未來的養分。至少出去的時候，還是可以騙騙不懂的人<span style="text-decoration: line-through;">(看，我超會寫程式的喔!)</span><br>當然其實還是有學到程式的部分，像是JS的基本寫法，或是github的專案用法，我也算是入門了。而且還提升了中英打的速度喔!</h4>
+  <h4 class="article_article">這次的專案，為我打開了新世界的大門，那些學到的知識已匯聚成一本寶典，雖然不是萬能，但至少帶著他，我多了好多技能，可以在往下一級的關卡邁進。</h4>
+  <h3><span class="article_highlight">謝謝大家!</span></h3>
+  <h4 class="article_article">喔對了，還是歡迎你造訪我的網站</h4>
+  <h3><span class="article_highlight">sssh-webpage.web.app</span></h3>
+  <br>
+</div>
+
+
+<button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+<br><br>
+<div class="main footer">
+  <div class="footer-item">
+    <h3>最新消息News</h3>
+    <nav>
+      <a href="link_news.html">＞最新消息News</a>
+      <a href="post.html">＞發布頁</a>
+    </nav>
+
+  </div>
+  <div class="footer-item">
+    <h3>行政處室Unit</h3>
+    <nav>
+      <a href="#">＞學務處</a>
+      <a href="#">＞教務處</a>
+      <a href="#">＞輔導室</a>
+      <a href="#">＞總務處</a>
+      <a href="#">＞校長室</a>
+      <a href="#">＞各科系辦公室</a>
+    </nav>
+
+  </div>
+  <div class="footer-item">
+    <h3>關於松高About</h3>
+    <nav>
+      <a href="#">＞學校歷史</a>
+      <a href="#">＞校園環境</a>
+      <a href="#">＞交通位置</a>
+      <a href="#">＞課程特色</a>
+      <a href="#">＞各項活動</a>
+    </nav>
+
+  </div>
+  <div class="footer-item">
+    <h3>崧人捷徑Connect</h3>
+    <nav>
+      <a href="https://www.sssh.tp.edu.tw/home"target="_blank">＞松山高中正式官網</a>
+      <a href="https://sschool.tp.edu.tw/Login.action?schNo=323301"target="_blank">＞二代校務行政系統</a>
+      <a href="https://e-portfolio.cooc.tp.edu.tw/"target="_blank">＞學習歷程檔案系統</a>
+      <a href="http://203.72.64.251/classtable/classtable.asp">＞松山高中線上課表查詢系統</a>
+      <a href="https://ldap.tp.edu.tw/"target="_blank">＞台北市單一身分驗證服務</a>
+      <a href="https://www.ssshmap.tk/"target="_blank">＞崧高地圖小幫手</a>
+      <a href=" http://course.sssh.tp.edu.tw:8080/moodle/"target="_blank">＞松山高中數位課程學習平台</a>
+    </nav>
+
+  </div>
+  <div class="footer-item">
+    <h3>網站地圖Map</h3>
+    <nav>
+      <a href="#">＞無障礙指引</a>
+      <a href="#">＞總目錄</a>
+      <a href="view-source:https://newssshwebsite.tk" target="_blank">＞原始碼</a>
+    </nav>
+
+  </div>
+  <div class="footer-item">
+    <h3>聯絡我們Contact</h3>
+    <nav>
+      <a href="#">＞聯絡我們Contact</a>
+    </nav>
+  </div>
+  <div class="footer-item">
+    <h3>版權聲明</h3>
+    <nav>
+      <a href="#">copyright &copy; 2022-2023<br>松山高中學生校網重建計畫<br>34th阿中 小黃 希希 版權所有</a>
+    </nav>
+  </div>
+    
+</div>
+
+<a href="mailto:school@sssh.tp.edu.tw" target="_blank" rel="noreferrer noopenner"><img src="images/gmail.png" class="gmail"></a>
+<a href="https://www.youtube.com/channel/UC1dulcWt0xd_hqsDapgPQ4A" target="_blank" rel="noreferrer noopenner"><img src="images/youtube.png" class="youtube"></a>
+<div class="contact">contact us</div>
+
+</body>
+</html>

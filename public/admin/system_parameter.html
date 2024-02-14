@@ -1,0 +1,146 @@
+<div class="ts-app-layout ">
+
+
+    <div class="cell is-fluid" style="background-color: transparent;">
+        <div class="ts-content">
+            <div class="ts-header is-heavy">參數設定</div>
+            <div class="ts-divider"></div>
+            <div class="ts-control">
+                <div class="label">段考範圍系統</div>
+                <div class="content">
+                    <div class="ts-wrap is-vertical is-compact">
+                        <div class="ts-input is-underlined has-top-spaced-small">
+                            <input id="apps_exam_title" type="text" />
+                        </div>
+                        <div class="ts-text is-description">修改段考範圍系統上方標題。</div>
+                    </div>
+                    <div class="ts-content is-rounded is-secondary is-padded">
+                        <button class="ts-button is-negative is-outlined" onclick="exam_reset()">重置系統</button>
+                        <div class="ts-text is-description">重置段考範圍系統所有填寫內容。</div>
+                    </div>
+                </div>
+                <div class="label">網站開關</div>
+                <div class="content">
+                    <div class="ts-wrap is-vertical is-compact">
+                        <div class="ts-input is-underlined has-top-spaced-small">
+                            <input id="notopenMSG" type="text" />
+                        </div>
+                        <div class="ts-text is-description">修改網站關閉後的提示訊息。</div>
+                    </div>
+                    <div class="ts-content is-rounded is-secondary is-padded">
+                        <button class="ts-button is-negative is-outlined" id="close_website"
+                            onclick="close_website()">載入中...</button>
+                        <div class="ts-text is-description">將網站開啟/關閉</div>
+                    </div>
+                </div>
+            </div>
+
+
+            <button class="ts-button has-top-spaced-large" onclick="post()">確定</button>
+        </div>
+
+
+        <br><br>
+    </div>
+
+</div>
+<script>
+    $(document).ready(function () {
+        var db = firebase.firestore();
+        var ref = db.collection('system').doc("exam_search");
+        var ref2 = db.collection('dashboard').doc("website");
+        ref.get().then(data => {
+            $("#apps_exam_title").val(data.data()["title"])
+        });
+        ref2.get().then(data => {
+            $("#notopenMSG").val(data.data()["notopenMSG"])
+        });
+        ref2.get().then(data => {
+            if (data.data()["open"]) {
+                $("#close_website").html("關閉網站");
+            }
+            else {
+                $("#close_website").html("開啟網站");
+            }
+        });
+    });
+    function post() {
+        var db = firebase.firestore();
+        var ref = db.collection('system').doc("exam_search");
+        var ref2 = db.collection('dashboard').doc("website");
+        ref.update({
+            "title": $("#apps_exam_title").val(),
+            "notopenMSG": $("#notopenMSG").val()
+        }).then(() => {
+            ref2.update({
+                "notopenMSG": $("#notopenMSG").val()
+            })
+        }).then(() => {
+            alert("已修改")
+        });
+    }
+    function exam_reset() {
+        var db = firebase.firestore();
+        var ref = db.collection('system').doc("exam_search");
+        var confirmed = confirm("確定要重置所有段考範圍嗎?");
+        if (confirmed) {
+            ref.set({
+                "title": "尚未設定段考範圍",
+                "grade1": [{
+                    "subject": "尚未設定",
+                    "range": "尚未設定，請聯絡教務處實研組。",
+                    "author": "後台重置",
+                    "time": firebase.firestore.Timestamp.now()
+                }],
+                "grade2": [{
+                    "subject": "尚未設定",
+                    "range": "尚未設定，請聯絡教務處實研組。",
+                    "author": "後台重置",
+                    "time": firebase.firestore.Timestamp.now()
+                }],
+                "grade3": [{
+                    "subject": "尚未設定",
+                    "range": "尚未設定，請聯絡教務處實研組。",
+                    "author": "後台重置",
+                    "time": firebase.firestore.Timestamp.now()
+                }]
+
+            }).then(() => {
+                alert("已重置")
+            });
+        }
+    }
+    function close_website() {
+        var db = firebase.firestore();
+        var ref = db.collection('dashboard').doc("website");
+        ref.get().then(data => {
+            if (data.data()["open"] == false) {
+                var confirmed = confirm("確定要開啟這個網站嗎?");
+                if (confirmed) {
+
+                    ref.update({
+                        "open": true
+                    }).then(() => {
+                        alert("操作完成")
+                        location.reload()
+                    })
+                }
+            }
+            else {
+                var confirmed = confirm("確定要關閉這個網站嗎?");
+                if (confirmed) {
+                    var confirmed2 = confirm("這個操作會讓前台關閉(後台除外)，確定嗎?");
+                    if (confirmed2) {
+                        ref.update({
+                            "open": false
+                        }).then(() => {
+                            alert("操作完成")
+                            location.reload()
+                        })
+                    }
+                }
+            }
+        });
+
+    }
+</script>

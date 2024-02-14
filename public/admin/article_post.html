@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet" />
+    <title>文章發布</title>
+    <!-- 編輯器採用https://github.com/showdownjs/showdown -->
+    <style type="text/css">
+        .CodeMirror {
+            border-radius: 0;
+            height: -webkit-fill-available;
+            max-height: calc(50%);
+            max-width: calc(100%);
+            background-color: var(--ts-gray-50);
+            color: var(--ts-gray-800);
+        }
+
+        .editor-toolbar {
+            margin-top: 20px;
+            max-width: calc(100%);
+        }
+
+        .editor-toolbar i.separator {
+            border-right-color: var(--ts-gray-300);
+        }
+
+        .editor-toolbar a {
+            color: var(--ts-gray-800) !important;
+        }
+
+        .editor-toolbar a.active,
+        .editor-toolbar a:hover {
+            background-color: transparent;
+            color: var(--ts-gray-800) !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ts-app-layout ">
+
+
+        <div class="cell is-fluid" style="background-color: transparent;">
+            <div class="ts-content">
+                <div class="ts-header is-heavy">發布文章</div>
+                <div class="ts-divider"></div>
+
+                <div class="ts-text is-secondary has-top-spaced-large is-required">標題</div>
+                <div class="ts-input is-underlined has-top-spaced-small">
+                    <input id="title_input" type="text" />
+                </div>
+                <div class="ts-text is-secondary has-top-spaced-large is-required">內文</div>
+                <textarea id="article_textarea"></textarea>
+                <p >自動產生目錄</p>
+                <div class="is-collapsed">
+                    <label class="ts-switch">
+                        <input type="checkbox" name="toc">
+                    </label>
+                </div>
+                <button class="ts-button has-top-spaced-large" id="post_btn" onclick="post()">發表文章</button>
+                <p id="msg" style="color:red;"></p>
+            </div>
+
+
+            <br><br>
+        </div>
+
+    </div>
+
+    <script>
+        var simplemde = new SimpleMDE({
+            element: document.getElementById("article_textarea"),
+            spellChecker: false,
+            status: false,
+        });
+        function post() {
+            if ($("#title_input").val() == null || $("#title_input").val() == "" || simplemde.value() == null || simplemde.value() == "") {
+                $("#msg").html("必要欄位不可為空");
+            }
+            else {
+                $("#msg").html("");
+                var db = firebase.firestore();
+                var session = $.cookie('session');
+                var decodedSession = JSON.parse(atob(session));
+                // 取得當前文章數量
+                var articlesRef = db.collection('article');
+                articlesRef.get().then(function (querySnapshot) {
+                    var numberOfArticles = querySnapshot.size;
+
+                    // 設定新文章的ID為當前文章數量+1
+                    var newArticleId = numberOfArticles + 1;
+
+                    // 新文章的文檔參考
+                    var ref = articlesRef.doc(newArticleId.toString());
+
+                    var converter = new showdown.Converter()
+                    converter.setOption("tables", true);
+                    converter.setOption("emoji", true);
+                    converter.setOption("underline", true);
+                    var text = simplemde.value()
+                    var html = converter.makeHtml(text);
+                    console.log(html);
+                    const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+                    ref.set({
+                        "title": $("#title_input").val(),
+                        "markdown": simplemde.value(),
+                        "content": html,
+                        "time": timestamp,
+                        "author": decodedSession["email"],
+                        "is_delete": false,
+                        "toc": $("input[name='toc']").is(":checked"),
+                        "view_count": 0
+                    }).then(() => {
+                        console.log('set data successful');
+                        window.location.href = "/article.html?id=" + newArticleId;
+                    });
+                });
+
+            }
+        }
+
+    </script>
+</body>
+
+</html>

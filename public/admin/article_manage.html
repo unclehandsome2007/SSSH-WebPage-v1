@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文章管理</title>
+</head>
+
+<body>
+    <div class="ts-app-layout">
+        <div class="cell is-fluid" style="background-color: transparent;">
+            <div class="ts-content">
+                <div class="ts-header is-heavy">管理文章</div>
+                <div class="ts-divider"></div>
+                <br>
+                <div class="ts-input is-solid is-start-icon">
+                    <span class="ts-icon is-magnifying-glass-icon"></span>
+                    <input type="text" placeholder="輸入關鍵字…" id="searchInput">
+                    <button class="ts-button" id="searchButton">搜尋</button>
+                </div>
+                <br>
+
+                <div class="ts-tab is-pilled">
+                    <button class="item is-active" data-tab="article">文章</button>
+                    <button class="item" data-tab="RecycleBin">回收桶</button>
+                </div>
+                <br>
+                <div class="ts-segment" data-name="article">
+                    <div class="ts-box">
+                        <table class="ts-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>標題</th>
+                                    <th>作者</th>
+                                    <th>發布時間</th>
+                                    <th>狀態</th>
+                                    <th class="is-collapsed"></th>
+                                    <th class="is-collapsed"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="articleTableBody">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="ts-segment" data-name="RecycleBin">
+                    <div class="ts-box">
+                        <table class="ts-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>標題</th>
+                                    <th>作者</th>
+                                    <th>發布時間</th>
+                                    <th>狀態</th>
+                                    <th class="is-collapsed"></th>
+                                    <th class="is-collapsed"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="recycleBinTableBody">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js"></script>
+
+    <script defer>
+
+        // 獲取對Firebase的引用
+        var db = firebase.firestore();
+
+        // 获取用户的email
+        var user_email = JSON.parse(atob($.cookie('session')))["email"];
+
+        // 查詢文章並填充表格
+        function loadArticles() {
+            var articleTableBody = document.getElementById('articleTableBody');
+            var recycleBinTableBody = document.getElementById('recycleBinTableBody');
+
+            // 清空表格内容
+            articleTableBody.innerHTML = '';
+            recycleBinTableBody.innerHTML = '';
+
+            // 獲取文章集合的引用，並按時間倒序排列
+            var articlesRef = db.collection('article').orderBy('time', 'desc');
+
+            // 查詢文章並將其添加到表格
+            articlesRef.get().then(function (querySnapshot) {
+                querySnapshot.forEach(function (doc) {
+                    var article = doc.data();
+                    var row = document.createElement('tr');
+
+                    // 比较文章作者和用户email，只显示匹配的文章
+                    if (article.author === user_email) {
+                        row.innerHTML = `
+                            <td>${doc.id}</td>
+                            <td><a href="/article.html?id=${doc.id}" target="_blank">${article.title}</a></td>
+                            <td>${article.author}</td>
+                            <td>${article.time.toDate().toLocaleString()}</td>
+                            <td><span class="ts-text ${article.is_delete ? '' : 'is-mark'}">${article.is_delete ? 'N' : 'Y'}</span></td>
+                            <td><button class="ts-button is-icon is-outlined" onclick="editArticle('${doc.id}')"><span class="ts-icon is-pen-icon"></span></button></td>
+                            <td><button class="ts-button is-icon is-outlined is-negative" onclick="${article.is_delete ? `restoreArticle('${doc.id}')` : `deleteArticle('${doc.id}')`}">${article.is_delete ? '<span class="ts-icon is-clock-rotate-left-icon"></span>' : '<span class="ts-icon is-trash-icon"></span>'}</button></td>
+                        `;
+
+                        if (article.is_delete) {
+                            recycleBinTableBody.appendChild(row); // 添加到回收桶表格
+                        } else {
+                            articleTableBody.appendChild(row); // 添加到文章表格
+                        }
+                    }
+                });
+            });
+        }
+
+        // 編輯文章
+        function editArticle(articleId) {
+            // 在這里實現編輯文章的邏輯，例如跳轉到編輯頁面
+            window.location.href = `#article_edit.html?id=${articleId}`;
+        }
+
+        // 刪除文章
+        function deleteArticle(articleId) {
+            if (confirm('確定要刪除這篇文章嗎？')) {
+                var articleRef = db.collection('article').doc(articleId);
+
+                articleRef.update({
+                    is_delete: true
+                }).then(function () {
+                    console.log('文章已刪除');
+                    loadArticles(); // 重新加載文章列表
+                }).catch(function (error) {
+                    console.error('刪除文章時出錯：', error);
+                });
+            }
+        }
+
+        // 恢復文章
+        function restoreArticle(articleId) {
+            var articleRef = db.collection('article').doc(articleId);
+
+            articleRef.update({
+                is_delete: false
+            }).then(function () {
+                console.log('文章已恢復');
+                loadArticles(); // 重新加載文章列表
+            }).catch(function (error) {
+                console.error('恢復文章時出錯：', error);
+            });
+        }
+
+        // 在頁面加載時調用加載文章函數
+        loadArticles();
+
+        // 获取搜索按钮元素
+        var searchButton = document.getElementById('searchButton');
+
+        // 添加点击事件处理程序
+        searchButton.addEventListener('click', function () {
+            searchArticles();
+        });
+
+        // 创建一个搜索文章的函数
+        function searchArticles() {
+            var keyword = document.getElementById('searchInput').value.trim().toLowerCase();
+            var tableRows = document.querySelectorAll('tbody tr');
+
+            tableRows.forEach(function (row) {
+                var title = row.querySelector('td:nth-child(2) a').textContent.toLowerCase();
+                if (title.includes(keyword)) {
+                    row.style.display = ''; // 显示匹配的文章
+                } else {
+                    row.style.display = 'none'; // 隐藏不匹配的文章
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
